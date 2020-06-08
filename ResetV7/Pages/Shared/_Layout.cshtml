@@ -18,11 +18,21 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
+                        @*<li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
+                        </li>*@
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Forgot</a>
+                        </li>
+                        @*<li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+        </li>*@
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown">admin</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item text-dark" asp-page="">Reset Logs</a>
+                                <a class="dropdown-item text-dark" asp-page="">Log Types</a>
+                            </div>
                         </li>
                     </ul>
                 </div>
