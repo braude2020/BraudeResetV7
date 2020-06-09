@@ -14,6 +14,7 @@ namespace ResetV7.Models
         }
 
         public DbSet<LogType> LogType { get; set; }
+        public DbSet<ResetLog> ResetLog { get; set; }
 
 
 

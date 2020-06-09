@@ -1,0 +1,64 @@
+﻿@page
+@model ResetV7.IndexTypeModel
+@{
+    ViewData["Title"] = "IndexType";
+}
+
+
+
+<br />
+<div class="container row p-0 m-0">
+    <div class="col-9">
+        <h2 class="text-primary">Log Types</h2>
+    </div>
+    <div class="col-3">
+        <a asp-page="CreateLogType" class="btn btn-primary form-control text-white">Create new Log Type</a>
+    </div>
+
+    <div class="col-12 border p-3 mt-3">
+        <form method="post">
+            @if(Model.LogTypes.Count() > 0)
+            {
+                <table class="table table-striped border">
+                    <tr class="table-secondary">
+                        <th>
+                            <label asp-for="LogTypes.FirstOrDefault().Id"></label>
+                        </th>
+                        <th>
+                            <label asp-for="LogTypes.FirstOrDefault().name"></label>
+                        </th>
+                        <th>
+                            <label asp-for="LogTypes.FirstOrDefault().description"></label>
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                    @foreach(var item in Model.LogTypes)
+                    {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.description)
+                    </td>
+                    <td>
+                        <button asp-page-handler="Delete" asp-route-Id="@item.Id" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</button>
+                        <a asp-page="EditLogType" asp-route-Id="@item.Id" class="btn btn-success btn-sm">Edit</a>
+                    </td>
+                </tr>
+                    }
+                </table>
+
+            }
+            else
+            {
+                <p>No Log Types available.S</p>
+            }
+        </form>
+    </div>
+</div>
