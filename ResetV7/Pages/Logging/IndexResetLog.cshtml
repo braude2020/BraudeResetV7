@@ -28,7 +28,7 @@
                     @Html.DisplayNameFor(m => m.ResetLog[0].mobile)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(m => m.ResetLog[0].LogType)
+                    @Html.DisplayNameFor(m => m.ResetLog[0].LogTypeId)
                 </th>
                 <th>
                     @Html.DisplayNameFor(m => m.ResetLog[0].countLogin)
@@ -37,7 +37,7 @@
                     @Html.DisplayNameFor(m => m.ResetLog[0].countOTP)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(m => m.ResetLog[0].countReset)
+                    @Html.DisplayNameFor(m => m.ResetLog[0].countForgot)
                 </th>
                 <th>
                     @Html.DisplayNameFor(m => m.ResetLog[0].bizUser)
@@ -66,7 +66,7 @@
                         @Html.DisplayFor(m => item.mobile)
                     </td>
                     <td>
-                        @Html.DisplayFor(m => item.LogType.name)
+                        @Html.DisplayFor(m => item.LogTypeId)
                     </td>
                     <td>
                         @Html.DisplayFor(m => item.countLogin)
@@ -75,7 +75,7 @@
                         @Html.DisplayFor(m => item.countOTP)
                     </td>
                     <td>
-                        @Html.DisplayFor(m => item.countReset)
+                        @Html.DisplayFor(m => item.countForgot)
                     </td>
                     <td>
                         @Html.DisplayFor(m => item.bizUser)

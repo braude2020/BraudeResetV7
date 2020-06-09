@@ -31,28 +31,129 @@ namespace ResetV7
         {
             var ResetLogFromDb = await _db.ResetLog.FindAsync(ResetLog.ResetID);
 
-            if(ResetLogFromDb == null)
+            if (ResetLogFromDb == null)
             {
-                
+
                 ResetLog.LogTypeId = 2;
+                ResetLog.logTime = System.DateTime.Now;
+                ResetLog.countForgot = 1;
                 await _db.ResetLog.AddAsync(ResetLog);
                 await _db.SaveChangesAsync();
                 ResetLogFromDb = await _db.ResetLog.FindAsync(ResetLog.ResetID);
             }
-            ResetLogFromDb.username = ResetLog.username;
+            else
+            {
+                ResetLogFromDb.countForgot = ResetLogFromDb.countForgot + 1;
+                ResetLogFromDb.username = ResetLog.username;
+                ResetLogFromDb.mobile = ResetLog.mobile;
 
-            //if (ModelState.IsValid)
-            //{
-            //    var LogTypeFromDb = await _db.LogType.FindAsync(LogType.Id);
-            //    LogTypeFromDb.name = LogType.name;
-            //    LogTypeFromDb.description = LogType.description;
+            }
 
 
-            //    await _db.SaveChangesAsync();
+            if(ResetLogFromDb.countForgot >= 3)
+            {
+                //ResetLogFromDb.LogTypeId = 3;
+                await _db.SaveChangesAsync();
+                return RedirectToPage("/Reset/Error", new { id = ResetLog.ResetID });
+            }
 
-            //    return RedirectToPage("IndexType");
-            //}
-            return RedirectToPage();
+
+            //    //ResetLog.checkUser(username, mobile)
+            //    //0 - Somthing went very wrong    DB(5)
+            //    //1 - no such user                DB(6)
+            //    //2- Biz user                     DB(7)
+            //    //3 - EDU user                    DB(8)
+            //    //4 - BIZ EDU user                DB(9)
+            //    //5 - not autorized               DB(10)
+
+
+                int userCheck = 4;
+            //    int userCheck = ResetLog.checkUser(ResetLog.username, ResetLog.mobile);
+                userCheck = userCheck + 5;
+
+            if (userCheck == 7 || userCheck == 9)
+                ResetLogFromDb.bizUser = true;
+            if (userCheck == 8 || userCheck == 9)
+                ResetLogFromDb.eduUser = true;
+
+
+            if(userCheck == 5 || userCheck == 6)
+            {
+                ResetLogFromDb.LogTypeId = userCheck;
+                await _db.SaveChangesAsync();
+                return RedirectToPage("/Reset/Forgot", new { id = ResetLog.ResetID });
+            }
+            if (userCheck == 10)
+            {
+                ResetLogFromDb.LogTypeId = userCheck;
+                await _db.SaveChangesAsync();
+                return RedirectToPage("/Reset/Error", new { id = ResetLog.ResetID });
+            }
+
+
+            //ResetLogFromDb.sessionToken = "123456";
+            //Send SMS
+            //ResetLog.sessionToken = ResetLog.generateToken();
+            //ResetLog.sendSMS(ResetLog.mobile, ResetLog.sessionTokenCheck);
+
+            if(userCheck == 7 || userCheck == 9 || userCheck == 8)
+            {
+                ResetLogFromDb.sessionToken = "123456";
+                ResetLogFromDb.LogTypeId = 11;
+
+                //Send SMS
+                //ResetLogFromDb.sessionToken = ResetLog.generateToken();
+                //ResetLogFromDb.sendSMS(ResetLogFromDb.mobile, ResetLogFromDb.sessionToken);
+                
+                await _db.SaveChangesAsync();
+                return RedirectToPage("/Reset/OTP", new { id = ResetLog.ResetID });
+            }
+
+
+
+
+
+
+            //    //int userCheck = 4;
+            //    int userCheck = ResetLog.checkUser(ResetLog.username, ResetLog.mobile);
+            //    userCheck = userCheck + 2;
+
+
+            //    if (userCheck == 3 || userCheck == 0)
+            //    {
+            //        ResetLog.err = userCheck;
+            //        //_db.ResetLog.Update(ResetLog);
+            //        await _db.SaveChangesAsync();
+            //        return RedirectToPage("/ResetV2/ForgotV2", new { id = ResetLog.sessionId });
+            //    }
+
+
+            //    if (userCheck == 3 || userCheck == 7)
+            //    {
+            //        ResetLog.err = userCheck;
+            //        //_db.ResetLog.Update(ResetLog);
+            //        await _db.SaveChangesAsync();
+            //        return RedirectToPage("/ResetV2/ErrorV2", new { id = ResetLog.sessionId });
+            //    }
+            //    if (userCheck == 4 || userCheck == 6)
+            //        ResetLog.bizUser = true;
+            //    if (userCheck == 5 || userCheck == 6)
+            //        ResetLog.eduUser = true;
+
+
+            //    ResetLog.sessionTokenCheck = "123456";
+            //    //Send SMS
+            //    //ResetLog.sessionTokenCheck = ResetLog.generateToken();
+            //    //ResetLog.sendSMS(ResetLog.mobile, ResetLog.sessionTokenCheck);
+
+
+
+
+
+
+
+            await _db.SaveChangesAsync();
+            return RedirectToPage("/Reset/Forgot", new { id = ResetLog.ResetID });
         }
         //public async Task<IActionResult> OnGetAsync(int? id)
         //{

@@ -1,0 +1,79 @@
+﻿@page
+@model ResetV7.TestResetLogModel
+
+@{
+    ViewData["Title"] = "TestResetLog";
+}
+
+<h1>TestResetLog</h1>
+
+<div>
+    <h4>ResetLog</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ResetLog.logTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ResetLog.logTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ResetLog.username)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ResetLog.username)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ResetLog.mobile)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ResetLog.mobile)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ResetLog.countLogin)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ResetLog.countLogin)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ResetLog.countOTP)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ResetLog.countOTP)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ResetLog.countForgot)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ResetLog.countForgot)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ResetLog.bizUser)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ResetLog.bizUser)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ResetLog.eduUser)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ResetLog.eduUser)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ResetLog.sessionToken)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ResetLog.sessionToken)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ResetLog.LogType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ResetLog.LogType.name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.ResetLog.ResetID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

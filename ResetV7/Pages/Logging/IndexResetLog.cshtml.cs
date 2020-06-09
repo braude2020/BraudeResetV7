@@ -20,6 +20,7 @@ namespace ResetV7
         public async Task<IActionResult> OnGet()
         {
             ResetLog = await _db.ResetLog.ToListAsync();
+            //ResetLog.
             return Page();
         }
     }

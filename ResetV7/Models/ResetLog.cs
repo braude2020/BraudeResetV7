@@ -22,12 +22,13 @@ namespace ResetV7.Models
         
         public int countLogin { get; set; }
         public int countOTP { get; set; }
-        public int countReset { get; set; }
+        public int countForgot { get; set; }
         public Boolean bizUser { get; set; }
         public Boolean eduUser { get; set; }
-        [MinLength(6), MaxLength(6)]
+        
         public string sessionToken { get; set; }
-        //public string sessionTokenCheck { get; set; }
+        [MinLength(6), MaxLength(6)]
+        public string sessionTokenCheck { get; set; }
         public int LogTypeId { get; set; }
 
         [ForeignKey("LogTypeId")]
