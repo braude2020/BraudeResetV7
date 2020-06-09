@@ -1,0 +1,108 @@
+﻿@page
+@model ResetV7.IndexResetLogModel
+@{
+    ViewData["Title"] = "IndexResetLog";
+}
+
+<h1>Reset Log - Admin</h1>
+
+<div>
+    @if (Model.ResetLog.Count == 0)
+    {
+        <p>No Error Type exists.</p>
+    }
+    else
+    {
+        <table class="table table-striped border">
+            <tr class="table-secondary">
+                <th>
+                    @Html.DisplayNameFor(m => m.ResetLog[0].ResetID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.ResetLog[0].logTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.ResetLog[0].username)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.ResetLog[0].mobile)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.ResetLog[0].LogType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.ResetLog[0].countLogin)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.ResetLog[0].countOTP)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.ResetLog[0].countReset)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.ResetLog[0].bizUser)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.ResetLog[0].eduUser)
+                </th>
+                
+
+            </tr>
+
+            @foreach (var item in Model.ResetLog)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(m => item.ResetID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.logTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.username)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.mobile)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.LogType.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.countLogin)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.countOTP)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.countReset)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.bizUser)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.eduUser)
+                    </td>
+                    
+
+
+
+
+                    @*<td style="width:250px;">
+                            <div class="btn-group" role="group">
+                                <a class="btn btn-primary text-white" asp-page="EditErrorType" asp-route-Id="@item.ErrorCode">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <a class="btn btn-danger text-white" asp-page="DeleteErrorType" asp-route-Id="@item.ErrorCode">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </td>*@
+                </tr>
+            }
+        </table>
+    }
+</div>
+

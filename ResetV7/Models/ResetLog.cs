@@ -6,19 +6,20 @@ using System.Net.Http;
 using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ResetV7.Models
 {
     public class ResetLog
     {
         [Key]
-        public int sessionId { get; set; }
+        public int ResetID { get; set; }
         public DateTime logTime { get; set; }
         [Required]
         public string username { get; set; }
         [Required, MinLength(10), MaxLength(10)]
         public string mobile { get; set; }
-        public int err { get; set; }
+        
         public int countLogin { get; set; }
         public int countOTP { get; set; }
         public int countReset { get; set; }
@@ -26,9 +27,11 @@ namespace ResetV7.Models
         public Boolean eduUser { get; set; }
         [MinLength(6), MaxLength(6)]
         public string sessionToken { get; set; }
-        public string sessionTokenCheck { get; set; }
+        //public string sessionTokenCheck { get; set; }
+        public int LogTypeId { get; set; }
 
-
+        [ForeignKey("LogTypeId")]
+        public virtual LogType LogType { get; set; }
 
         public string generateToken()
         {
