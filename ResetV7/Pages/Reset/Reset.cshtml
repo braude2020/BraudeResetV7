@@ -1,0 +1,40 @@
+﻿@page
+@model ResetV7.ResetModel
+@{
+    ViewData["Title"] = "Reset";
+}
+
+<div class="border container" style="padding:30px;">
+    <form method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <input type="hidden" asp-for="ResetPassword.ResetID">
+ 
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="ResetPassword.Password"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="ResetPassword.Password" class="form-control" />
+                @*<span class="text-danger" asp-validation-for="ResetPasswordBigModel.ResetPassword.Password"></span>*@
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-4">
+                <label asp-for="ResetPassword.ConfirmPassword"></label>
+            </div>
+            <div class="col-6">
+                <input asp-for="ResetPassword.ConfirmPassword" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-3 offset-4">
+                <input type="submit" value="Reset Password" class="btn btn-primary form-control" />
+                @*<span class="text-danger" asp-validation-for="ResetPasswordBigModel.ResetPassword.ConfirmPassword"></span>*@
+            </div>
+        </div>
+    </form>
+</div>
+
+@section scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

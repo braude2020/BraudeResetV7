@@ -27,7 +27,26 @@ namespace ResetV7
         }
         public async Task<IActionResult> OnPost()
         {
-            return null;
+            var ResetLogFromDb = await _db.ResetLog.FindAsync(ResetLog.ResetID);
+            
+            if(ResetLogFromDb.sessionToken == ResetLog.sessionTokenCheck)
+            {
+                ResetLogFromDb.LogTypeId = 13;
+                await _db.SaveChangesAsync();
+                return RedirectToPage("/Reset/Reset", new { id = ResetLog.ResetID });
+
+            }
+            else
+            {
+                ResetLogFromDb.countOTP = ResetLogFromDb.countOTP + 1;
+                ResetLogFromDb.LogTypeId = 12;
+                await _db.SaveChangesAsync();
+                if (ResetLogFromDb.countOTP >= 3)
+                    return RedirectToPage("/Reset/Error", new { id = ResetLog.ResetID });
+            }
+
+
+            return RedirectToPage("/Reset/OTP", new { id = ResetLog.ResetID });
         }
     }
 }

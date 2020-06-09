@@ -20,7 +20,7 @@ namespace ResetV7.Models
         [Required, MinLength(10), MaxLength(10)]
         public string mobile { get; set; }
         
-        public int countLogin { get; set; }
+        public int countReset { get; set; }
         public int countOTP { get; set; }
         public int countForgot { get; set; }
         public Boolean bizUser { get; set; }
