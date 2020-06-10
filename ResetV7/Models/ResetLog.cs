@@ -29,11 +29,16 @@ namespace ResetV7.Models
         public string sessionToken { get; set; }
         [MinLength(6), MaxLength(6)]
         public string sessionTokenCheck { get; set; }
+        
         public int LogTypeId { get; set; }
 
         [ForeignKey("LogTypeId")]
         public virtual LogType LogType { get; set; }
 
+        
+      
+        
+        
         public string generateToken()
         {
             string token = "";
