@@ -67,8 +67,8 @@ namespace ResetV7
             //    //5 - not autorized               DB(10)
 
 
-                int userCheck = 4;
-            //    int userCheck = ResetLog.checkUser(ResetLog.username, ResetLog.mobile);
+            //    int userCheck = 4;
+                int userCheck = ResetLog.checkUser(ResetLog.username, ResetLog.mobile);
                 userCheck = userCheck + 5;
 
             if (userCheck == 7 || userCheck == 9)
@@ -98,12 +98,12 @@ namespace ResetV7
 
             if(userCheck == 7 || userCheck == 9 || userCheck == 8)
             {
-                ResetLogFromDb.sessionToken = "123456";
-                ResetLogFromDb.LogTypeId = 11;
+                //ResetLogFromDb.sessionToken = "123456";
+                //ResetLogFromDb.LogTypeId = 11;
 
                 //Send SMS
-                //ResetLogFromDb.sessionToken = ResetLog.generateToken();
-                //ResetLogFromDb.sendSMS(ResetLogFromDb.mobile, ResetLogFromDb.sessionToken);
+                ResetLogFromDb.sessionToken = ResetLog.generateToken();
+                ResetLogFromDb.sendSMS(ResetLogFromDb.mobile, ResetLogFromDb.sessionToken);
                 
                 await _db.SaveChangesAsync();
                 return RedirectToPage("/Reset/OTP", new { id = ResetLog.ResetID });
