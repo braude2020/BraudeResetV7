@@ -25,6 +25,7 @@ namespace ResetV7.Models
         public int countForgot { get; set; }
         public Boolean bizUser { get; set; }
         public Boolean eduUser { get; set; }
+        public String Ip { get; set; }
         
         public string sessionToken { get; set; }
         [MinLength(6), MaxLength(6)]
@@ -182,6 +183,12 @@ namespace ResetV7.Models
             var httpClient = HttpClientFactory.Create();
             var url = "http://simplesms.co.il/webservice/sendsmsws.asmx/SendSms?UserName=ravids&EncryptPassword=b6d670e996454d91966133c6ba82836f&Subscribers=" + mobile + "&Message=" + token + "&SenderName=Braude&DeliveryDelayInMinutes=0&ExpirationDelayInMinutes=120";
             HttpResponseMessage httpResponseMessage = await httpClient.GetAsync(url);
+        }
+        public Boolean isSessionStillValide(DateTime sessionStartTime)
+        {
+            if (sessionStartTime.AddMinutes(5) > System.DateTime.Now)
+                return false;
+            return true;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -23,12 +24,53 @@ namespace ResetV7
         //public void OnGet()
         //{
         //}
-        public async Task OnGet(int id)
-        { 
-            ResetLog = await _db.ResetLog.FindAsync(id);  
+        public async Task<IActionResult> OnGet(int id)
+        {
+            var serverCheck = new DC();
+            HttpClient client = new HttpClient();
+            var checkingResponse = await client.GetAsync("https://simplesms.co.il/");
+            ////    if (!checkingResponse.IsSuccessStatusCode)
+            ////    {
+            ////if(!serverCheck.isBizDcUp() || !serverCheck.isEduDcUp() || !serverCheck.isMailBitUp())
+            if (!serverCheck.isBizDcUp())
+            {
+                return Redirect("/Reset/Error");
+            }
+            if (!serverCheck.isEduDcUp())
+            {
+                return Redirect("/Reset/Error");
+            }
+            if (!checkingResponse.IsSuccessStatusCode)
+            {
+                return Redirect("/Reset/Error");
+            }
+
+
+
+            ResetLog = await _db.ResetLog.FindAsync(id);
+            return Page();
+            //if(ResetLog == null)
+            //    return RedirectToPage("/Reset/Forgot");
+
+            //return RedirectToPage("/Reset/Forgot", new { id = ResetLog.ResetID });
         }
         public async Task<IActionResult> OnPost()
         {
+            //check if server is available 
+
+            //
+
+
+
+
+
+
+
+
+
+
+
+
             var ResetLogFromDb = await _db.ResetLog.FindAsync(ResetLog.ResetID);
 
             if (ResetLogFromDb == null)
@@ -43,6 +85,12 @@ namespace ResetV7
             }
             else
             {
+                if(ResetLogFromDb.isSessionStillValide(ResetLogFromDb.logTime))
+                {
+                    ResetLogFromDb.LogTypeId = 17;
+                    await _db.SaveChangesAsync();
+                    return RedirectToPage("/Reset/Error", new { id = ResetLogFromDb.ResetID });
+                }
                 ResetLogFromDb.countForgot = ResetLogFromDb.countForgot + 1;
                 ResetLogFromDb.username = ResetLog.username;
                 ResetLogFromDb.mobile = ResetLog.mobile;

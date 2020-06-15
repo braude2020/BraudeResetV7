@@ -28,8 +28,16 @@ namespace ResetV7
         public async Task<IActionResult> OnPost()
         {
             var ResetLogFromDb = await _db.ResetLog.FindAsync(ResetLog.ResetID);
-            
-            if(ResetLogFromDb.sessionToken == ResetLog.sessionTokenCheck)
+
+            if (ResetLogFromDb.isSessionStillValide(ResetLogFromDb.logTime))
+            {
+                ResetLogFromDb.LogTypeId = 17;
+                await _db.SaveChangesAsync();
+                return RedirectToPage("/Reset/Error", new { id = ResetLogFromDb.ResetID });
+            }
+
+
+            if (ResetLogFromDb.sessionToken == ResetLog.sessionTokenCheck)
             {
                 ResetLogFromDb.LogTypeId = 13;
                 await _db.SaveChangesAsync();

@@ -37,6 +37,15 @@ namespace ResetV7
         {
             var ResetLogFromDb = await _db.ResetLog.FindAsync(ResetPassword.ResetID);
 
+
+            if (ResetLogFromDb.isSessionStillValide(ResetLogFromDb.logTime))
+            {
+                ResetLogFromDb.LogTypeId = 17;
+                await _db.SaveChangesAsync();
+                return RedirectToPage("/Reset/Error", new { id = ResetLogFromDb.ResetID });
+            }
+
+
             if (!ModelState.IsValid)
             {
                 ResetLogFromDb.LogTypeId = 14;
