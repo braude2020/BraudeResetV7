@@ -73,8 +73,8 @@ namespace ResetV7
                 PrincipalContext context = new PrincipalContext(ContextType.Domain, "10.168.0.2", "OU=Administration,OU=BRDUsers,DC=BRD,DC=AC", "ADSyncService", "9eV8H@G4z1XH");
                 UserPrincipal user = UserPrincipal.FindByIdentity(context, IdentityType.SamAccountName, username);
                 user.Enabled = true;
-                user.EmailAddress = password;
-                //user.SetPassword(password);
+                //user.EmailAddress = password;
+                user.SetPassword(password);
                 user.Save();
             }
             catch (Exception)
@@ -90,8 +90,8 @@ namespace ResetV7
                 PrincipalContext context2 = new PrincipalContext(ContextType.Domain, "10.168.130.10", "OU=edu,OU=BrdUsers,DC=brdeng,DC=ac", "ADSyncService", "9eV8H@G4z1XH");
                 UserPrincipal user2 = UserPrincipal.FindByIdentity(context2, IdentityType.SamAccountName, username);
                 user2.Enabled = true;
-                user2.EmailAddress = password;
-                //user2.SetPassword(password);
+                //user2.EmailAddress = password;
+                user2.SetPassword(password);
                 user2.Save();
             }
             catch (Exception)

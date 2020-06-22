@@ -89,6 +89,7 @@ namespace ResetV7.Models
 
             if (userBIZ == null && userEDU == null)
                 return 1;
+
             if (userBIZ != null && bizUserCheck(userBIZ, mobile))
             {
                 if (bizGroupCheck(userBIZ))
@@ -96,6 +97,8 @@ namespace ResetV7.Models
                 else
                     return 5;
             }
+            else
+                UserState = 1;
             if (userEDU != null && eduUserCheck(userEDU, mobile) && UserState != 5)
             {
                 if (UserState == 2)

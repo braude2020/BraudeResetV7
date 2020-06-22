@@ -13,6 +13,7 @@ namespace ResetV7
         private readonly ApplicationDbContext _db;
         [BindProperty]
         public ResetLog ResetLog { get; set; }
+        public LogType LogType { get; set; }
 
         public ErrorModel(ApplicationDbContext db)
         {
@@ -24,6 +25,8 @@ namespace ResetV7
         public async Task OnGet(int id)
         {
             ResetLog = await _db.ResetLog.FindAsync(id);
+            LogType = await _db.LogType.FindAsync(ResetLog.LogTypeId);
+            //int errorDescription = 
         }
     }
 }

@@ -32,15 +32,22 @@ namespace ResetV7
             ////    if (!checkingResponse.IsSuccessStatusCode)
             ////    {
             ////if(!serverCheck.isBizDcUp() || !serverCheck.isEduDcUp() || !serverCheck.isMailBitUp())
-            if (!serverCheck.isBizDcUp())
+            try
             {
-                return Redirect("/Reset/Error");
+                if (!serverCheck.isBizDcUp())
+                {
+                    return Redirect("/Reset/Error");
+                }
+                if (!serverCheck.isEduDcUp())
+                {
+                    return Redirect("/Reset/Error");
+                }
+                if (!checkingResponse.IsSuccessStatusCode)
+                {
+                    return Redirect("/Reset/Error");
+                }
             }
-            if (!serverCheck.isEduDcUp())
-            {
-                return Redirect("/Reset/Error");
-            }
-            if (!checkingResponse.IsSuccessStatusCode)
+            catch(Exception ex)
             {
                 return Redirect("/Reset/Error");
             }
