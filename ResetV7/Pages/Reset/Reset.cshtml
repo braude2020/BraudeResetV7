@@ -1,7 +1,7 @@
 ﻿@page
 @model ResetV7.ResetModel
 @{
-    ViewData["Title"] = "Reset";
+    ViewData["Title"] = "עדכון סיסמ";
 }
 
 <div class="border container" style="padding:30px;">
@@ -14,7 +14,7 @@
                 <label asp-for="ResetPassword.Password"></label>
             </div>
             <div class="col-6">
-                <input asp-for="ResetPassword.Password" class="form-control" />
+                <input asp-for="ResetPassword.Password" class="form-control"  dir="ltr" />
                 @*<span class="text-danger" asp-validation-for="ResetPasswordBigModel.ResetPassword.Password"></span>*@
             </div>
         </div>
@@ -23,12 +23,12 @@
                 <label asp-for="ResetPassword.ConfirmPassword"></label>
             </div>
             <div class="col-6">
-                <input asp-for="ResetPassword.ConfirmPassword" class="form-control" />
+                <input asp-for="ResetPassword.ConfirmPassword" class="form-control"  dir="ltr" />
             </div>
         </div>
         <div class="form-group row">
-            <div class="col-3 offset-4">
-                <input type="submit" value="Reset Password" class="btn btn-primary form-control" />
+            <div class="col-10 offset-4">
+                <input type="submit" value="עדכן סיסמה" class="btn btn-primary form-control" style="width:20%"/>
                 @*<span class="text-danger" asp-validation-for="ResetPasswordBigModel.ResetPassword.ConfirmPassword"></span>*@
             </div>
         </div>

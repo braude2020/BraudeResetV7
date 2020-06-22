@@ -4,7 +4,7 @@
     ViewData["Title"] = "OTP";
 }
 
-<h2>Enter OTP send by SMS</h2>
+<h2 class="text-center">הכנס קוד אימות</h2class="text-center">
 <br>
 <br>
 <div class="border container" style="padding:30px;">
@@ -19,14 +19,14 @@
                 <label asp-for="ResetLog.sessionTokenCheck"></label>
             </div>
             <div class="col-6">
-                <input asp-for="ResetLog.sessionTokenCheck" class="form-control" />
+                <input asp-for="ResetLog.sessionTokenCheck" class="form-control" placeholder="XXXXXX" dir="ltr"/>
                 <span class="text-danger" asp-validation-for="ResetLog.sessionTokenCheck"></span>
             </div>
         </div>
         
         <div class="form-group row">
-            <div class="col-3 offset-4">
-                <input type="submit" value="Reset Password" class="btn btn-primary form-control" />
+            <div class="col-10 offset-4">
+                <input type="submit" value="עדכן סיסמה" class="btn btn-primary form-control" style="width:20%" />
             </div>
             @*<div class="col-3">
                     <a asp-page="Index" class="btn btn-success form-control">Back</a>

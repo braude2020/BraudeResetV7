@@ -15,9 +15,10 @@ namespace ResetV7.Models
         [Key]
         public int ResetID { get; set; }
         public DateTime logTime { get; set; }
-        [Required]
+        [Required, Display(Name = "שם משתמש")]
         public string username { get; set; }
-        [Required, MinLength(10), MaxLength(10)]
+        [Required, MinLength(10), MaxLength(10), Display(Name = "מספר טלפון נייד")]
+
         public string mobile { get; set; }
         
         public int countReset { get; set; }
@@ -28,7 +29,7 @@ namespace ResetV7.Models
         public String Ip { get; set; }
         
         public string sessionToken { get; set; }
-        [MinLength(6), MaxLength(6)]
+        [MinLength(6), MaxLength(6), Display(Name = "קוד אימות")]
         public string sessionTokenCheck { get; set; }
         
         public int LogTypeId { get; set; }

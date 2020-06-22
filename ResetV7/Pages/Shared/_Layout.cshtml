@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+@*<html lang="en" dir="rtl">*@
+<html lang="he" dir="rtl">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,6 +14,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 
+    <script type="text/javascript">
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+    </script>
+
 
 
 </head>
@@ -20,7 +27,21 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Reset/Forgot">ResetV7</a>
+                @*<a class="navbar-brand" asp-area="" asp-page="/Reset/Forgot">Home</a>*@
+                <a href="https://w3.braude.ac.il">
+                    <div style="text-align: right">
+                        <img src="/braude.png" />
+                        @*<img style="align: right" src="/braude.png" />*@
+                    </div>
+
+                </a>
+
+                @*<a href="someURL">
+                        <img src="@Url.Action("GetMainPicture", "Product", new { item.ProductID, @class = "img-responsive" })" height="300" width="230" alt="" />
+                    </a>*@
+
+
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -30,19 +51,19 @@
                         @*<li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                             </li>*@
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Reset/Forgot">Forgot</a>
-                        </li>
+                        @*<li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Reset/Forgot">Forgot</a>
+                            </li>*@
                         @*<li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                             </li>*@
                         @*<li class="nav-item dropdown">
-                            <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown">admin</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item text-dark" asp-page="/Logging/IndexResetLog">Reset Logs</a>
-                                <a class="dropdown-item text-dark" asp-page="/Logging/IndexType">Log Types</a>
-                            </div>
-                        </li>*@
+                                <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown">admin</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item text-dark" asp-page="/Logging/IndexResetLog">Reset Logs</a>
+                                    <a class="dropdown-item text-dark" asp-page="/Logging/IndexType">Log Types</a>
+                                </div>
+                            </li>*@
                     </ul>
                 </div>
             </div>
@@ -55,9 +76,9 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - ResetV7 - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
+        @*<div class="container">
+                &copy; 2020 - ResetV7 - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            </div>*@
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -69,6 +90,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 
 
     @RenderSection("Scripts", required: false)

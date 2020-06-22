@@ -123,7 +123,12 @@ namespace ResetV7
 
 
             //    int userCheck = 4;
-                int userCheck = ResetLog.checkUser(ResetLog.username, ResetLog.mobile);
+
+            ResetLog.username = ResetLog.username.Replace("@braude.ac.il","");
+            ResetLog.username = ResetLog.username.Replace("@s.braude.ac.il", "");
+            ResetLog.username = ResetLog.username.Replace("@e.braude.ac.il", "");
+
+            int userCheck = ResetLog.checkUser(ResetLog.username, ResetLog.mobile);
                 userCheck = userCheck + 5;
 
             if (userCheck == 7 || userCheck == 9)

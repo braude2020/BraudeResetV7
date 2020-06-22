@@ -17,9 +17,10 @@ namespace ResetV7.Pages
             _logger = logger;
         }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGet()
         {
-
+            //return Page();
+            return RedirectToPage("/Reset/Forgot");
         }
     }
 }
