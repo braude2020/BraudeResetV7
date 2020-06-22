@@ -25,7 +25,7 @@ namespace ResetV7
         public async Task OnGet(int id)
         {
             ResetLog = await _db.ResetLog.FindAsync(id);
-            //LogType = await _db.LogType.FindAsync(ResetLog.LogTypeId);
+            LogType = await _db.LogType.FindAsync(ResetLog.LogTypeId);
             //int errorDescription = 
         }
     }

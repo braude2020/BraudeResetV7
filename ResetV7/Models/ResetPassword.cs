@@ -11,7 +11,7 @@ namespace ResetV7.Models
         public int ResetID { get; set; }
 
         [Required]
-        [RegularExpression("^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$", ErrorMessage = "סיסמה בת 8 תוים לפחות, אות גדולה, אות קטנה ומספרים|")]
+        [RegularExpression("^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$", ErrorMessage = "סיסמה בת 8 תוים לפחות, אות גדולה, אות קטנה ומספרים")]
         [DataType(DataType.Password)]
         [Display(Name = "סיסמה חדשה")]
         public string Password { get; set; }
