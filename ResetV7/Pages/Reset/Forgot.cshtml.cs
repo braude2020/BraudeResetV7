@@ -16,6 +16,7 @@ namespace ResetV7
         private readonly ApplicationDbContext _db;
         [BindProperty]
         public ResetLog ResetLog { get; set; }
+        public String ErrMessage { get; set; }
 
         public ForgotModel(ApplicationDbContext db)
         {
@@ -55,6 +56,7 @@ namespace ResetV7
 
 
             ResetLog = await _db.ResetLog.FindAsync(id);
+            
             return Page();
             //if(ResetLog == null)
             //    return RedirectToPage("/Reset/Forgot");
@@ -105,12 +107,12 @@ namespace ResetV7
             }
 
 
-            if(ResetLogFromDb.countForgot >= 3)
-            {
-                //ResetLogFromDb.LogTypeId = 3;
-                await _db.SaveChangesAsync();
-                return RedirectToPage("/Reset/Error", new { id = ResetLog.ResetID });
-            }
+            //if(ResetLogFromDb.countForgot >= 3)
+            //{
+            //    //ResetLogFromDb.LogTypeId = 3;
+            //    await _db.SaveChangesAsync();
+            //    return RedirectToPage("/Reset/Error", new { id = ResetLog.ResetID });
+            //}
 
 
             //    //ResetLog.checkUser(username, mobile)
@@ -193,7 +195,7 @@ namespace ResetV7
             //        ResetLog.err = userCheck;
             //        //_db.ResetLog.Update(ResetLog);
             //        await _db.SaveChangesAsync();
-            //        return RedirectToPage("/ResetV2/ErrorV2", new { id = ResetLog.sessionId });
+            //        return RedirectToPage("/ResetV2/ErrorV2", new { id = ResetLog.sessionId });271800
             //    }
             //    if (userCheck == 4 || userCheck == 6)
             //        ResetLog.bizUser = true;
@@ -213,6 +215,16 @@ namespace ResetV7
 
 
             await _db.SaveChangesAsync();
+
+            if (ResetLogFromDb.countForgot >= 3)
+            {
+                //ResetLogFromDb.LogTypeId = 3;
+                //await _db.SaveChangesAsync();
+                return RedirectToPage("/Reset/Error", new { id = ResetLog.ResetID });
+            }
+
+
+
             return RedirectToPage("/Reset/Forgot", new { id = ResetLog.ResetID });
         }
         //public async Task<IActionResult> OnGetAsync(int? id)

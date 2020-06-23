@@ -17,6 +17,7 @@ namespace ResetV7.Models
         public DateTime logTime { get; set; }
         [Required, Display(Name = "שם משתמש")]
         public string username { get; set; }
+        [RegularExpression(@"(?<!\d)\d{10}(?!\d)", ErrorMessage = "סיסמה בת 8 תוים לפחות, אות גדולה, אות קטנה ומספרים")]
         [Required, MinLength(10), MaxLength(10), Display(Name = "מספר טלפון נייד")]
 
         public string mobile { get; set; }
