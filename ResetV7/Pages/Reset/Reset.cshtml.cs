@@ -8,6 +8,10 @@ using ResetV7.Models;
 using System.DirectoryServices.AccountManagement;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using MimeKit;
+
+using MailKit.Net.Smtp;
+
 
 namespace ResetV7
 {
@@ -15,6 +19,8 @@ namespace ResetV7
     {
 
         private readonly ApplicationDbContext _db;
+        private Boolean emailSend = false;
+
         [BindProperty]
         //public ResetLog ResetLog { get; set; }
         public ResetPassword ResetPassword { get; set; }
@@ -50,15 +56,40 @@ namespace ResetV7
             {
                 ResetLogFromDb.LogTypeId = 14;
                 ResetLogFromDb.countReset++;
-               
+
             }
             else
             {
-
-                if(updateBiz(ResetLogFromDb.username, ResetPassword.Password) && updateEdu(ResetLogFromDb.username, ResetPassword.Password))
-                    ResetLogFromDb.LogTypeId = 15;
-                else
-                    ResetLogFromDb.LogTypeId = 14;
+                if (ResetLogFromDb.bizUser && ResetLogFromDb.eduUser)
+                { 
+                    if (updateBiz(ResetLogFromDb.username, ResetPassword.Password) && updateEdu(ResetLogFromDb.username, ResetPassword.Password))
+                    {
+                        await sendMailTo(ResetLogFromDb.username + "@braude.ac.il");
+                        ResetLogFromDb.LogTypeId = 15;
+                    }
+                    else
+                        ResetLogFromDb.LogTypeId = 14;
+                }
+                else if (ResetLogFromDb.bizUser && !(ResetLogFromDb.eduUser))
+                {
+                    if (updateBiz(ResetLogFromDb.username, ResetPassword.Password))
+                    {
+                        await sendMailTo(ResetLogFromDb.username + "@braude.ac.il");
+                        ResetLogFromDb.LogTypeId = 15;
+                    }
+                    else
+                        ResetLogFromDb.LogTypeId = 14;
+                }
+                else if(!(ResetLogFromDb.bizUser) && ResetLogFromDb.eduUser)
+                {
+                    if (updateEdu(ResetLogFromDb.username, ResetPassword.Password))
+                    {
+                        await sendMailTo(ResetLogFromDb.username + "@s.braude.ac.il");
+                        ResetLogFromDb.LogTypeId = 15;
+                    }
+                    else
+                        ResetLogFromDb.LogTypeId = 14;
+                }
                 ResetLogFromDb.LogTypeId = 15;
                 await _db.SaveChangesAsync();
                 return RedirectToPage("/Reset/Done", new { id = ResetPassword.ResetID });
@@ -100,5 +131,46 @@ namespace ResetV7
             }
             return true;
         }
+        public async Task sendMailTo(String email)
+        {
+            if (emailSend == true)
+                return;
+            else
+                emailSend = true;
+
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Password reset", "security@braude.ac.il"));
+            message.To.Add(new MailboxAddress("Braude", email));
+            message.Subject = "Your Password was reset!";
+            message.Body = new TextPart("plain")
+            {
+                Text = "Your Password was reset"
+            };
+            using (var client = new SmtpClient())
+            {
+                client.Connect("smtp.office365.com", 587, false);
+                client.Authenticate("security@braude.ac.il", "3D0w&rBo");
+                await client.SendAsync(message);
+                client.Disconnect(true);
+            }
+        }
+        //public async Task sendMailToAsync(String email)
+        //{
+        //    var message = new MimeMessage();
+        //    message.From.Add(new MailboxAddress("Password reset", "security@braude.ac.il"));
+        //    message.To.Add(new MailboxAddress("Braude", email));
+        //    message.Subject = "You Password was Reset";
+        //    message.Body = new TextPart("plain")
+        //    {
+        //        Text = "Your Password was reset"
+        //    };
+        //    using (var client = new SmtpClient())
+        //    {
+        //        client.Connect("smtp.office365.com", 587, false);
+        //        client.Authenticate("security@braude.ac.il", "3D0w&rBo");
+        //        await client.SendAsync(message);
+        //        client.Disconnect(true);
+        //    }
+        //}
     }
 }

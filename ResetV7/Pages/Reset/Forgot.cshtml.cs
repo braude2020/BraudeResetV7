@@ -139,7 +139,7 @@ namespace ResetV7
                 ResetLogFromDb.eduUser = true;
 
 
-            if(userCheck == 5 || userCheck == 6)
+            if((userCheck == 5 || userCheck == 6) && ResetLogFromDb.countForgot < 3)
             {
                 ResetLogFromDb.LogTypeId = userCheck;
                 await _db.SaveChangesAsync();

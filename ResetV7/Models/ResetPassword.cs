@@ -10,7 +10,7 @@ namespace ResetV7.Models
     {
         public int ResetID { get; set; }
 
-        [Required]
+        [Required]// (ErrorMessage = "Material cost is required")]
         [RegularExpression("^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$", ErrorMessage = "סיסמה בת 8 תוים לפחות, אות גדולה, אות קטנה ומספרים")]
         [DataType(DataType.Password)]
         [Display(Name = "סיסמה חדשה")]
@@ -18,7 +18,7 @@ namespace ResetV7.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "אשר סיסמה חדשה")]
-        [Compare("Password", ErrorMessage = "The new password and conformation password do not match")]
+        [Compare("Password", ErrorMessage = "שים לב! - הסיסמאות שהוכנסו אינן זהות")]
         public string ConfirmPassword { get; set; }
         public int countReset { get; set; }
     }

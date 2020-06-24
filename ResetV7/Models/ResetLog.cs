@@ -15,10 +15,10 @@ namespace ResetV7.Models
         [Key]
         public int ResetID { get; set; }
         public DateTime logTime { get; set; }
-        [Required, Display(Name = "שם משתמש")]
+        [Required(ErrorMessage = "שם משתמש הוא שדה חובה"), Display(Name = "שם משתמש") ]
         public string username { get; set; }
-        [RegularExpression(@"(?<!\d)\d{10}(?!\d)", ErrorMessage = "סיסמה בת 8 תוים לפחות, אות גדולה, אות קטנה ומספרים")]
-        [Required, MinLength(10), MaxLength(10), Display(Name = "מספר טלפון נייד")]
+        [RegularExpression(@"(?<!\d)\d{10}(?!\d)", ErrorMessage = "המספר הסלולרי שהוכנס אינו תקין")]
+        [Required(ErrorMessage = "מספר טלפון נייד הוא שדה חובה"), MinLength(10), MaxLength(10), Display(Name = "מספר טלפון נייד")]
 
         public string mobile { get; set; }
         
@@ -30,6 +30,8 @@ namespace ResetV7.Models
         public String Ip { get; set; }
         
         public string sessionToken { get; set; }
+        //[RegularExpression(@"(?<!\d)\d{6}(?!\d)", ErrorMessage = "קוד אימות אינו תקין")]
+        [RegularExpression(@"^\d{6}$", ErrorMessage = "קוד אימות אינו תקין")]
         [MinLength(6), MaxLength(6), Display(Name = "קוד אימות")]
         public string sessionTokenCheck { get; set; }
         
