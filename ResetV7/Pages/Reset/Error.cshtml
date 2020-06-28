@@ -12,12 +12,16 @@
 
 <h1>משהו השתבש, פנה לתמיכה </h1>
 <br />
+
+
+@if(@Model.ResetLog != null) { 
 <h1><a href="mailto:helpdesk@braude.ac.il?subject=LogID: @Model.ResetLog.ResetID">Helpdesk</a><br> </h1>
     <br />
     <h1>Session Id: @Html.DisplayFor(m => m.ResetLog.ResetID)</h1>
     <br />
     <h1>Error: @Html.DisplayFor(m => Model.LogType.name)</h1>
     @*@Html.DisplayFor(m => m.ResetLog.LogTypeId)*@
+}
 
 
 

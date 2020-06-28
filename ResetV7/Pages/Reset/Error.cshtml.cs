@@ -24,9 +24,29 @@ namespace ResetV7
         //}
         public async Task OnGet(int id)
         {
+            int i;
             ResetLog = await _db.ResetLog.FindAsync(id);
-            LogType = await _db.LogType.FindAsync(ResetLog.LogTypeId);
-            //int errorDescription = 
+
+            if (ResetLog != null)
+            {
+                LogType = await _db.LogType.FindAsync(ResetLog.LogTypeId);
+                DateTime tmp = ResetLog.logTime.AddMinutes(5);
+
+
+                if (tmp > System.DateTime.Now)
+                    i = 1;
+                else
+                    ResetLog = null;
+                // if (!ResetLog.isSessionStillValide(ResetLog.logTime))
+                //     ResetLog = null;
+            }    
+
+            
+
+            
+
+            
+            
         }
     }
 }
