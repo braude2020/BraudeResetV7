@@ -25,7 +25,7 @@ namespace ResetV7
         //public void OnGet()
         //{
         //}
-        public async Task<IActionResult> OnGet(int id)
+        public async Task<IActionResult> OnGet(Guid id)
         {
             var serverCheck = new DC();
             HttpClient client = new HttpClient();

@@ -12,8 +12,15 @@ namespace ResetV7.Models
 {
     public class ResetLog
     {
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //public Guid Id { get; set; }
+        //[Key]
+        //public int ResetID { get; set; }
+
         [Key]
-        public int ResetID { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid ResetID { get; set; }
+
         public DateTime logTime { get; set; }
         [Required(ErrorMessage = "שם משתמש הוא שדה חובה"), Display(Name = "שם משתמש") ]
         public string username { get; set; }

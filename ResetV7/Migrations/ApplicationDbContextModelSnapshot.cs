@@ -40,10 +40,9 @@ namespace ResetV7.Migrations
 
             modelBuilder.Entity("ResetV7.Models.ResetLog", b =>
                 {
-                    b.Property<int>("ResetID")
+                    b.Property<Guid>("ResetID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Ip")
                         .HasColumnType("nvarchar(max)");

@@ -32,7 +32,7 @@ namespace ResetV7
         //public void OnGet()
         //{
         //}
-        public void OnGet(int id)
+        public void OnGet(Guid id)
         {
             if (ResetPassword == null)
                 ResetPassword = new ResetPassword();

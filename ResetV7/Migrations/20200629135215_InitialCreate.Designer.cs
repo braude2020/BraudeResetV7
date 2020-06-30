@@ -10,8 +10,8 @@ using ResetV7.Models;
 namespace ResetV7.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200609141011_AddedCountResetToDb")]
-    partial class AddedCountResetToDb
+    [Migration("20200629135215_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,10 +42,12 @@ namespace ResetV7.Migrations
 
             modelBuilder.Entity("ResetV7.Models.ResetLog", b =>
                 {
-                    b.Property<int>("ResetID")
+                    b.Property<Guid>("ResetID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Ip")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("LogTypeId")
                         .HasColumnType("int");

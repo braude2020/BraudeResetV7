@@ -8,7 +8,7 @@ namespace ResetV7.Models
 {
     public class ResetPassword
     {
-        public int ResetID { get; set; }
+        public Guid ResetID { get; set; }
 
         //[Required]
         [Required(ErrorMessage = "סיסמה הוא שדה חובה")]// (ErrorMessage = "Material cost is required")]

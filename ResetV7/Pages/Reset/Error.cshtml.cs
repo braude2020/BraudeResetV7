@@ -22,7 +22,7 @@ namespace ResetV7
         //public void OnGet()
         //{
         //}
-        public async Task OnGet(int id)
+        public async Task OnGet(Guid id)
         {
             int i;
             ResetLog = await _db.ResetLog.FindAsync(id);
