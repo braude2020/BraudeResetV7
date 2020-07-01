@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using ResetV7.Models;
 
 namespace ResetV7
@@ -81,7 +82,8 @@ namespace ResetV7
 
 
             var ResetLogFromDb = await _db.ResetLog.FindAsync(ResetLog.ResetID);
-
+            //Gettin the object from the db
+           
             if (ResetLogFromDb == null)
             {
 
@@ -92,6 +94,15 @@ namespace ResetV7
                 await _db.SaveChangesAsync();
                 ResetLogFromDb = await _db.ResetLog.FindAsync(ResetLog.ResetID);
             }
+            //checking how many attemps on the samer day
+            if (countResetOnSameDay(ResetLogFromDb.username, ResetLogFromDb.mobile) >= 5)
+            {
+                ResetLogFromDb.LogTypeId = 16;
+                await _db.SaveChangesAsync();
+                return RedirectToPage("/Reset/Error", new { id = ResetLogFromDb.ResetID });
+            }
+
+
             else
             {
                 if(ResetLogFromDb.isSessionStillValide(ResetLogFromDb.logTime))
@@ -226,6 +237,19 @@ namespace ResetV7
 
 
             return RedirectToPage("/Reset/Forgot", new { id = ResetLog.ResetID });
+        }
+
+
+        public int countResetOnSameDay(String username, String mobile)
+        {
+            //SQL Statement
+            //select Count(*) from ResetLog where username = 'vader' and mobile = '0524011593' and CAST(logTime as date) = CAST(GETDATE() as date)
+            String sqlQuery = "select * from ResetLog where username = '" + username + "' and mobile = '" + mobile + "' and CAST(logTime as date) = CAST(GETDATE() as date)";
+
+            //var ResetLogSameDay = _db.ResetLog.FromSqlRaw(sqlQuery).;
+            var ResetLogSameDay = _db.ResetLog.FromSqlRaw(sqlQuery).ToList();
+            var count = ResetLogSameDay.Count();
+            return count; 
         }
         //public async Task<IActionResult> OnGetAsync(int? id)
         //{
