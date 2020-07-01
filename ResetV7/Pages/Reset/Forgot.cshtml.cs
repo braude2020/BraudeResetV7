@@ -94,8 +94,18 @@ namespace ResetV7
                 await _db.SaveChangesAsync();
                 ResetLogFromDb = await _db.ResetLog.FindAsync(ResetLog.ResetID);
             }
+            ResetLog.username = ResetLog.username.ToLower();
+            ResetLog.username = ResetLog.username.Replace(" ", "");
+
+            ResetLog.username = ResetLog.username.ToLower().Replace("@braude.ac.il", "");
+            ResetLog.username = ResetLog.username.ToLower().Replace("@s.braude.ac.il", "");
+            ResetLog.username = ResetLog.username.ToLower().Replace("@e.braude.ac.il", "");
+
+
+
+
             //checking how many attemps on the samer day
-            if (countResetOnSameDay(ResetLogFromDb.username, ResetLogFromDb.mobile) >= 5)
+            if (countResetOnSameDay(ResetLogFromDb.username, ResetLogFromDb.mobile) >= 3)
             {
                 ResetLogFromDb.LogTypeId = 16;
                 await _db.SaveChangesAsync();
@@ -137,9 +147,7 @@ namespace ResetV7
 
             //    int userCheck = 4;
 
-            ResetLog.username = ResetLog.username.Replace("@braude.ac.il","");
-            ResetLog.username = ResetLog.username.Replace("@s.braude.ac.il", "");
-            ResetLog.username = ResetLog.username.Replace("@e.braude.ac.il", "");
+            
 
             int userCheck = ResetLog.checkUser(ResetLog.username, ResetLog.mobile);
                 userCheck = userCheck + 5;
@@ -244,7 +252,7 @@ namespace ResetV7
         {
             //SQL Statement
             //select Count(*) from ResetLog where username = 'vader' and mobile = '0524011593' and CAST(logTime as date) = CAST(GETDATE() as date)
-            String sqlQuery = "select * from ResetLog where username = '" + username + "' and mobile = '" + mobile + "' and CAST(logTime as date) = CAST(GETDATE() as date)";
+            String sqlQuery = "select * from ResetLog where LOWER(username) = LOWER('" + username + "') and mobile = '" + mobile + "' and CAST(logTime as date) = CAST(GETDATE() as date)";
 
             //var ResetLogSameDay = _db.ResetLog.FromSqlRaw(sqlQuery).;
             var ResetLogSameDay = _db.ResetLog.FromSqlRaw(sqlQuery).ToList();
