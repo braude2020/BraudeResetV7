@@ -64,7 +64,8 @@ namespace ResetV7
                 { 
                     if (updateBiz(ResetLogFromDb.username, ResetPassword.Password) && updateEdu(ResetLogFromDb.username, ResetPassword.Password))
                     {
-                        await sendMailTo(ResetLogFromDb.username + "@braude.ac.il");
+                        String messageText = "איפוס סיסמה בוצע בחשבונותך:" + "\r\n" + ResetLogFromDb.username + "@braude.ac.il \r\n" + ResetLogFromDb.username + "@e.braude.ac.il \r\n" + "אם השינוי לא בוצע על ידיך אנא פנה באופן מיידי לאבטחת מידע " + "\r\n" + "security@braude.ac.il";
+                        await sendMailTo(ResetLogFromDb.username + "@braude.ac.il", "איפוס סיסמה בוצע בחשבונך", messageText);
                         ResetLogFromDb.LogTypeId = 15;
                     }
                     else
@@ -74,7 +75,9 @@ namespace ResetV7
                 {
                     if (updateBiz(ResetLogFromDb.username, ResetPassword.Password))
                     {
-                        await sendMailTo(ResetLogFromDb.username + "@braude.ac.il");
+                        String messageText = "איפוס סיסמה בוצע בחשבונותך:" + "<br>" + ResetLogFromDb.username + "@braude.ac.il <br>" +  "אם השינוי לא בוצע על ידיך אנא פנה באופן מיידי לאבטחת מידע " + "<br>" + "security@braude.ac.il";
+
+                        await sendMailTo(ResetLogFromDb.username + "@braude.ac.il", "איפוס סיסמה בוצע בחשבונך", messageText);
                         ResetLogFromDb.LogTypeId = 15;
                     }
                     else
@@ -84,7 +87,9 @@ namespace ResetV7
                 {
                     if (updateEdu(ResetLogFromDb.username, ResetPassword.Password))
                     {
-                        await sendMailTo(ResetLogFromDb.username + "@s.braude.ac.il");
+                        String messageText = "איפוס סיסמה בוצע בחשבונותך:" + "<br>"  + ResetLogFromDb.username + "@e.braude.ac.il <br>" + "אם השינוי לא בוצע על ידיך אנא פנה באופן מיידי לאבטחת מידע " + "<br>" + "security@braude.ac.il";
+
+                        await sendMailTo(ResetLogFromDb.username + "@s.braude.ac.il", "איפוס סיסמה בוצע בחשבונך", messageText);
                         ResetLogFromDb.LogTypeId = 15;
                     }
                     else
@@ -131,7 +136,7 @@ namespace ResetV7
             }
             return true;
         }
-        public async Task sendMailTo(String email)
+        public async Task sendMailTo(String email, String subject, String emailMessage)
         {
             if (emailSend == true)
                 return;
@@ -141,10 +146,17 @@ namespace ResetV7
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("Password reset", "security@braude.ac.il"));
             message.To.Add(new MailboxAddress("Braude", email));
-            message.Subject = "Your Password was reset!";
+
+
+            
+
+
+
+
+            message.Subject = subject;
             message.Body = new TextPart("plain")
             {
-                Text = "Your Password was reset"
+                Text = emailMessage
             };
             using (var client = new SmtpClient())
             {
