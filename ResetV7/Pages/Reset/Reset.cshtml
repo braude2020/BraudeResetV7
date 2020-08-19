@@ -8,13 +8,13 @@
     <form method="post">
         <div asp-validation-summary="All" class="text-danger"></div>
         <input type="hidden" asp-for="ResetPassword.ResetID">
- 
+
         <div class="form-group row">
             <div class="col-4">
                 <label asp-for="ResetPassword.Password"></label>
             </div>
             <div class="col-6">
-                <input asp-for="ResetPassword.Password" class="form-control"  dir="ltr" onkeypress="capLock(event)" />
+                <input asp-for="ResetPassword.Password" class="form-control" dir="ltr" />
                 @*<span class="text-danger" asp-validation-for="ResetPasswordBigModel.ResetPassword.Password"></span>*@
             </div>
         </div>
@@ -23,18 +23,41 @@
                 <label asp-for="ResetPassword.ConfirmPassword"></label>
             </div>
             <div class="col-6">
-                <input asp-for="ResetPassword.ConfirmPassword" class="form-control" dir="ltr" onkeypress="capLock(event)" />
-                
+                <input asp-for="ResetPassword.ConfirmPassword" class="form-control" dir="ltr" />
+
             </div>
         </div>
         <div class="form-group row">
             <div class="col-10 offset-4">
-                <input type="submit" value="עדכן סיסמה" class="btn btn-primary form-control" style="width:20%"/>
+                <input type="submit" value="עדכן סיסמה" class="btn btn-primary form-control" style="width:20%" />
                 @*<span class="text-danger" asp-validation-for="ResetPasswordBigModel.ResetPassword.ConfirmPassword"></span>*@
             </div>
         </div>
     </form>
+
+
+
+
 </div>
+
+<p class="rtl" style="text-align: right">
+    <br><br>
+    סיסמה חוקית כוללת:
+    <br><br>
+    1. סיסמה חדשה שונה מ-5 הסיסמאות האחרונות
+    <br>
+    2. לפחות 8 תווים
+    <br>
+    3. ניתן להשתמש רק בתווים הבאים: a-z , A-Z , 0-9 , !, # , ~
+    <br>
+    4. ספרה אחת (0-9) לפחות
+    <br>
+    5. אות גדולה אחת לפחות
+    <br>
+    6. אות קטנה אחת לפחות
+    <br>
+    7. לא להשתמש באותיות בעברית
+</p>
 
 @section scripts{
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}

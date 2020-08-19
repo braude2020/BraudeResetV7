@@ -67,7 +67,7 @@ namespace ResetV7.Models
         }
         private void testAD()
         {
-            var ad = new PrincipalContext(ContextType.Domain, "10.168.0.2", "CN=BizPasswordReset,OU=BRDGroups,DC=BRD,DC=AC", "ADSyncService", "9eV8H@G4z1XH");
+            var ad = new PrincipalContext(ContextType.Domain, "192.168.0.2", "CN=BizPasswordReset,OU=BRDGroups,DC=BRD,DC=AC", "ADSyncService", "9eV8H@G4z1XH");
             var u = new UserPrincipal(ad) { SamAccountName = Environment.UserName };
 
             using (var search = new PrincipalSearcher(u))
@@ -90,12 +90,13 @@ namespace ResetV7.Models
 
             int UserState = 0;
 
+            //OU=edu,OU=BrdUsers,DC=brdeng,DC=ac
 
-
-            PrincipalContext contextEDU = new PrincipalContext(ContextType.Domain, "10.168.130.10", "OU=edu,OU=BrdUsers,DC=brdeng,DC=ac", "ADSyncService", "9eV8H@G4z1XH");
+            //PrincipalContext contextEDU = new PrincipalContext(ContextType.Domain, "192.168.130.10", "OU=BrdUsers,DC=brdeng,DC=ac", "ADSyncService", "9eV8H@G4z1XH");
+            PrincipalContext contextEDU = new PrincipalContext(ContextType.Domain, "192.168.130.10", "OU=edu,OU=BrdUsers,DC=brdeng,DC=ac", "ADSyncService", "9eV8H@G4z1XH");
             UserPrincipal userEDU = UserPrincipal.FindByIdentity(contextEDU, IdentityType.SamAccountName, username);
 
-            PrincipalContext contextBIZ = new PrincipalContext(ContextType.Domain, "10.168.0.2", "OU=Administration,OU=BRDUsers,DC=BRD,DC=AC", "ADSyncService", "9eV8H@G4z1XH");
+            PrincipalContext contextBIZ = new PrincipalContext(ContextType.Domain, "192.168.0.2", "OU=BRDUsers,DC=BRD,DC=AC", "ADSyncService", "9eV8H@G4z1XH");
             UserPrincipal userBIZ = UserPrincipal.FindByIdentity(contextBIZ, IdentityType.SamAccountName, username);
 
             if (userBIZ == null && userEDU == null)
@@ -126,7 +127,7 @@ namespace ResetV7.Models
         private Boolean bizUserCheck(UserPrincipal userBIZ, string checkMobile)
         {
             //textBox4.AppendText("TEsting BIZ");
-            PrincipalContext contextGroupBIZ = new PrincipalContext(ContextType.Domain, "10.168.0.2", "CN=BizPasswordReset,OU=BRDGroups,DC=BRD,DC=AC", "ADSyncService", "9eV8H@G4z1XH");
+            PrincipalContext contextGroupBIZ = new PrincipalContext(ContextType.Domain, "192.168.0.2", "CN=BizPasswordReset,OU=BRDGroups,DC=BRD,DC=AC", "ADSyncService", "9eV8H@G4z1XH");
             DirectoryEntry directoryEntry = userBIZ.GetUnderlyingObject() as DirectoryEntry;
 
             String mobile = (Convert.ToString(directoryEntry.Properties["mobile"].Value));
@@ -139,25 +140,13 @@ namespace ResetV7.Models
             }
             else if (String.Equals(checkMobile, mobile))
                 return true;
-            //{
-            //    GroupPrincipal group = GroupPrincipal.FindByIdentity(contextGroupBIZ, IdentityType.Name, "BizPasswordReset");
-
-            //    foreach (Principal p in group.GetMembers(true))
-            //    {
-            //        if (p.SamAccountName == userBIZ.SamAccountName)
-            //        {
-            //textBox4.AppendText("User in Group");
-            //return true;
-            //        }
-            //    }
-            //    return false;
-            //}
+            
 
             return false;
         }
         private Boolean bizGroupCheck(UserPrincipal userBIZ)
         {
-            PrincipalContext contextGroupBIZ = new PrincipalContext(ContextType.Domain, "10.168.0.2", "CN=BizPasswordReset,OU=BRDGroups,DC=BRD,DC=AC", "ADSyncService", "9eV8H@G4z1XH");
+            PrincipalContext contextGroupBIZ = new PrincipalContext(ContextType.Domain, "192.168.0.2", "CN=BizPasswordReset,OU=BRDGroups,DC=BRD,DC=AC", "ADSyncService", "9eV8H@G4z1XH");
             var directoryEntry = userBIZ.GetUnderlyingObject() as DirectoryEntry;
 
             GroupPrincipal group = GroupPrincipal.FindByIdentity(contextGroupBIZ, IdentityType.Name, "BizPasswordReset");

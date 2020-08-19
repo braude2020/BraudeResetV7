@@ -89,7 +89,7 @@ namespace ResetV7
                     {
                         String messageText = "איפוס סיסמה בוצע בחשבונותך:" + "<br>"  + ResetLogFromDb.username + "@e.braude.ac.il <br>" + "אם השינוי לא בוצע על ידיך אנא פנה באופן מיידי לאבטחת מידע " + "<br>" + "security@braude.ac.il";
 
-                        await sendMailTo(ResetLogFromDb.username + "@s.braude.ac.il", "איפוס סיסמה בוצע בחשבונך", messageText);
+                        await sendMailTo(ResetLogFromDb.username + "@e.braude.ac.il", "איפוס סיסמה בוצע בחשבונך", messageText);
                         ResetLogFromDb.LogTypeId = 15;
                     }
                     else
@@ -106,7 +106,8 @@ namespace ResetV7
         {
             try
             {
-                PrincipalContext context = new PrincipalContext(ContextType.Domain, "10.168.0.2", "OU=Administration,OU=BRDUsers,DC=BRD,DC=AC", "ADSyncService", "9eV8H@G4z1XH");
+                //PrincipalContext context = new PrincipalContext(ContextType.Domain, "192.168.0.2", "OU=Administration,OU=BRDUsers,DC=BRD,DC=AC", "ADSyncService", "9eV8H@G4z1XH");
+                PrincipalContext context = new PrincipalContext(ContextType.Domain, "192.168.0.2", "OU=BRDUsers,DC=BRD,DC=AC", "ADSyncService", "9eV8H@G4z1XH");
                 UserPrincipal user = UserPrincipal.FindByIdentity(context, IdentityType.SamAccountName, username);
                 user.Enabled = true;
                 //user.EmailAddress = password;
@@ -123,7 +124,9 @@ namespace ResetV7
         {
             try
             {
-                PrincipalContext context2 = new PrincipalContext(ContextType.Domain, "10.168.130.10", "OU=edu,OU=BrdUsers,DC=brdeng,DC=ac", "ADSyncService", "9eV8H@G4z1XH");
+                //OU=edu,OU=BrdUsers,DC=brdeng,DC=ac
+                //PrincipalContext context2 = new PrincipalContext(ContextType.Domain, "192.168.130.10", "OU=BrdUsers,DC=brdeng,DC=ac", "ADSyncService", "9eV8H@G4z1XH");
+                PrincipalContext context2 = new PrincipalContext(ContextType.Domain, "192.168.130.10", "OU=edu,OU=BrdUsers,DC=brdeng,DC=ac", "ADSyncService", "9eV8H@G4z1XH");
                 UserPrincipal user2 = UserPrincipal.FindByIdentity(context2, IdentityType.SamAccountName, username);
                 user2.Enabled = true;
                 //user2.EmailAddress = password;

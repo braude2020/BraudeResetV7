@@ -30,7 +30,7 @@ namespace ResetV7
         {
             var serverCheck = new DC();
             HttpClient client = new HttpClient();
-            var checkingResponse = await client.GetAsync("https://simplesms.co.il/");
+            //var checkingResponse = await client.GetAsync("https://simplesms.co.il/");
             ////    if (!checkingResponse.IsSuccessStatusCode)
             ////    {
             ////if(!serverCheck.isBizDcUp() || !serverCheck.isEduDcUp() || !serverCheck.isMailBitUp())
@@ -44,10 +44,10 @@ namespace ResetV7
                 {
                     return Redirect("/Reset/Error");
                 }
-                if (!checkingResponse.IsSuccessStatusCode)
-                {
-                    return Redirect("/Reset/Error");
-                }
+                //if (!checkingResponse.IsSuccessStatusCode)
+                //{
+                //    return Redirect("/Reset/Error");
+                //}
             }
             catch(Exception ex)
             {
@@ -89,7 +89,7 @@ namespace ResetV7
 
                 ResetLog.LogTypeId = 2;
                 ResetLog.logTime = System.DateTime.Now;
-                ResetLog.countForgot = 1;
+                ResetLog.countForgot = 0;
                 await _db.ResetLog.AddAsync(ResetLog);
                 await _db.SaveChangesAsync();
                 ResetLogFromDb = await _db.ResetLog.FindAsync(ResetLog.ResetID);
@@ -105,7 +105,7 @@ namespace ResetV7
 
 
             //checking how many attemps on the samer day
-            if (countResetOnSameDay(ResetLogFromDb.username, ResetLogFromDb.mobile) >= 3)
+            if (countResetOnSameDay(ResetLogFromDb.username, ResetLogFromDb.mobile) >= 6)
             {
                 ResetLogFromDb.LogTypeId = 16;
                 await _db.SaveChangesAsync();
@@ -235,7 +235,7 @@ namespace ResetV7
 
             await _db.SaveChangesAsync();
 
-            if (ResetLogFromDb.countForgot >= 3)
+            if (ResetLogFromDb.countForgot >= 5)
             {
                 //ResetLogFromDb.LogTypeId = 3;
                 //await _db.SaveChangesAsync();
