@@ -9,7 +9,6 @@ using System.DirectoryServices.AccountManagement;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using MimeKit;
-
 using MailKit.Net.Smtp;
 
 
@@ -164,7 +163,7 @@ namespace ResetV7
             using (var client = new SmtpClient())
             {
                 client.Connect("smtp.office365.com", 587, false);
-                client.Authenticate("security@braude.ac.il", "3D0w&rBo");
+                client.Authenticate("security@braude.ac.il", "3wtI$g&T0235!19zl$@rA5F0!");
                 await client.SendAsync(message);
                 client.Disconnect(true);
             }

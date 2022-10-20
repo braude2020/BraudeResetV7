@@ -9,8 +9,8 @@ namespace ResetV7.Models
 {
     public class DC
     {
-        public string bizDC = "10.168.0.2";
-        public string eduDC = "10.168.130.10";
+        public string bizDC = "192.168.0.2";
+        public string eduDC = "192.168.130.10";
         public string activeUser = "ADSyncService";
         public string activeUserPass = "9eV8H@G4z1XH";
         public string bizOU = "OU=Administration,OU=BRDUsers,DC=BRD,DC=AC";

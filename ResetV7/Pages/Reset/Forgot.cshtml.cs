@@ -186,6 +186,7 @@ namespace ResetV7
                 ResetLogFromDb.sessionToken = ResetLog.generateToken();
                 ResetLogFromDb.sendSMS(ResetLogFromDb.mobile, ResetLogFromDb.sessionToken);
                 
+
                 await _db.SaveChangesAsync();
                 return RedirectToPage("/Reset/OTP", new { id = ResetLog.ResetID });
             }

@@ -7,6 +7,11 @@ using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Net;
+using System.Text;
+using System.IO;
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Security;
 
 namespace ResetV7.Models
 {
@@ -181,11 +186,66 @@ namespace ResetV7.Models
             return false;
         }
 
+
+        public async void sendSMSBraude(String mobile, string token)
+        {
+            //WebRequest request = WebRequest.Create("https://localhost:44397/api/SmsMessage/BraudeReset/" + mobile + "/" + token);
+            WebRequest request = WebRequest.Create("https://sms.braude.ac.il/api/SmsMessage/BraudeReset/" + mobile + "/" + token);
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
+
+
+            string data = "";
+            byte[] dataStream = Encoding.UTF8.GetBytes(data);
+
+            request.ContentLength = dataStream.Length;
+            Stream newStream = request.GetRequestStream();
+
+            newStream.Write(dataStream, 0, dataStream.Length);
+            newStream.Close();
+
+            WebResponse response = request.GetResponse();
+        }
+
+
         public async void sendSMS(String mobile, string token)
         {
             var httpClient = HttpClientFactory.Create();
-            var url = "http://simplesms.co.il/webservice/sendsmsws.asmx/SendSms?UserName=ravids&EncryptPassword=b6d670e996454d91966133c6ba82836f&Subscribers=" + mobile + "&Message=" + token + "&SenderName=Braude&DeliveryDelayInMinutes=0&ExpirationDelayInMinutes=120";
-            HttpResponseMessage httpResponseMessage = await httpClient.GetAsync(url);
+            
+            //var url = "http://simplesms.co.il/webservice/sendsmsws.asmx/SendSms?UserName=ravids&EncryptPassword=b6d670e996454d91966133c6ba82836f&Subscribers=" + mobile + "&Message=" + token + "&SenderName=Braude&DeliveryDelayInMinutes=0&ExpirationDelayInMinutes=120";
+
+            var url = "https://simplesms.co.il/webservice/smsws.asmx/SendSms?UserName=ravids&EncryptPassword=b6d670e996454d91966133c6ba82836f&Subscribers=" + mobile + "&Message=" + token + "&SenderName=Braude&DeliveryDelayInMinutes=0&ExpirationDelayInMinutes=120&sendid=0";
+            //var url = "https://213.8.243.103/webservice/smsws.asmx/SendSms?UserName=ravids&EncryptPassword=b6d670e996454d91966133c6ba82836f&Subscribers=" + mobile + "&Message=" + token + "&SenderName=Braude&DeliveryDelayInMinutes=0&ExpirationDelayInMinutes=120&sendid=0";
+
+            //var url = "https://localhost:44397/api/SmsMessage/BraudeReset/" + mobile + "/" + token;
+
+            //await httpClient.PostAsync()
+            //HttpResponseMessage httpResponseMessage = await httpClient.PutAsync(url);
+            try
+            {
+                //System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate (object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; };
+                //ServicePointManager.Expect100Continue = true;
+                //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+                //url = "https://simplesms.co.il/webservice/smsws.asmx/SendSms?UserName=ravids&EncryptPassword=b6d670e996454d91966133c6ba82836f&Subscribers=" + mobile + "&Message=" + token + "&SenderName=Braude&DeliveryDelayInMinutes=0&ExpirationDelayInMinutes=120&sendid=0";
+
+
+                //WebRequest request = WebRequest.Create(url);
+                //Stream rs = request.GetResponse().GetResponseStream();
+                //StreamReader reader = new StreamReader(rs);
+
+
+                HttpResponseMessage httpResponseMessage = await httpClient.GetAsync(url);
+                var test = httpResponseMessage;
+            }
+            catch(Exception ex)
+            {
+                var test = ex.Message;
+                if(ex.InnerException != null)
+                {
+                    var test2 = ex.InnerException;
+                }
+            }
         }
         public Boolean isSessionStillValide(DateTime sessionStartTime)
         {
