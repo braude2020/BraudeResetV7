@@ -110,7 +110,15 @@ namespace ResetV7
                 UserPrincipal user = UserPrincipal.FindByIdentity(context, IdentityType.SamAccountName, username);
                 user.Enabled = true;
                 //user.EmailAddress = password;
-                user.SetPassword(password);
+                try
+                {
+                    user.SetPassword(password);
+                }catch(Exception ex)
+                {
+                    return false;
+                    //var test = ex;
+                }
+                
                 user.Save();
             }
             catch (Exception)
@@ -129,6 +137,7 @@ namespace ResetV7
                 UserPrincipal user2 = UserPrincipal.FindByIdentity(context2, IdentityType.SamAccountName, username);
                 user2.Enabled = true;
                 //user2.EmailAddress = password;
+                //try
                 user2.SetPassword(password);
                 user2.Save();
             }
