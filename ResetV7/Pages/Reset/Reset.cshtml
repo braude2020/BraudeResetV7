@@ -4,6 +4,19 @@
     ViewData["Title"] = "עדכון סיסמ";
 }
 
+
+
+    @if (ViewData["Message"] != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () 
+            {
+                alert("@ViewData["Message"]");
+            };
+        </script>
+    }
+    
+
 <div class="border container" style="padding:30px;">
     <form method="post">
         <div asp-validation-summary="All" class="text-danger"></div>

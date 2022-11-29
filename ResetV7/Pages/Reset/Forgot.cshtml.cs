@@ -105,7 +105,7 @@ namespace ResetV7
 
 
             //checking how many attemps on the samer day
-            if (countResetOnSameDay(ResetLogFromDb.username, ResetLogFromDb.mobile) >= 6)
+            if (countResetOnSameDay(ResetLogFromDb.username, ResetLogFromDb.mobile) >= 3)
             {
                 ResetLogFromDb.LogTypeId = 16;
                 await _db.SaveChangesAsync();
@@ -258,7 +258,18 @@ namespace ResetV7
             //var ResetLogSameDay = _db.ResetLog.FromSqlRaw(sqlQuery).;
             var ResetLogSameDay = _db.ResetLog.FromSqlRaw(sqlQuery).ToList();
             var count = ResetLogSameDay.Count();
-            return count; 
+
+            int countLastNMin = 0;
+
+            foreach(ResetLog RSL in ResetLogSameDay)
+            {
+                if(RSL.logTime.AddMinutes(5) >= DateTime.Now)
+                {
+                    countLastNMin++;
+                }
+            }
+
+            return countLastNMin; 
         }
         //public async Task<IActionResult> OnGetAsync(int? id)
         //{

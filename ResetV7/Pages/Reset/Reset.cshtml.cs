@@ -16,6 +16,8 @@ namespace ResetV7
 {
     public class ResetModel : PageModel
     {
+        [ViewData]
+        public string Message { get; set; }
 
         private readonly ApplicationDbContext _db;
         private Boolean emailSend = false;
@@ -36,11 +38,38 @@ namespace ResetV7
             if (ResetPassword == null)
                 ResetPassword = new ResetPassword();
             ResetPassword.ResetID = id;
+
+
+
+
+
             //ResetLog = await _db.ResetLog.FindAsync(id);
         }
         public async Task<IActionResult> OnPost()
         {
+
+            
+
+
             var ResetLogFromDb = await _db.ResetLog.FindAsync(ResetPassword.ResetID);
+            bool PasswdResetError = false;
+
+            string uName = ResetLogFromDb.username;
+            string uPasswd = ResetPassword.Password;
+
+            if (uPasswd.ToUpper().Contains(uName.ToUpper()))
+            {
+                
+                Message = "Problem: Password contains username";
+                return Page();
+            //    //ViewData["Message"] = "Problem: Password contains username";
+
+                
+            }
+
+
+
+
 
 
             if (ResetLogFromDb.isSessionStillValide(ResetLogFromDb.logTime))
@@ -59,6 +88,9 @@ namespace ResetV7
             }
             else
             {
+                
+
+
                 if (ResetLogFromDb.bizUser && ResetLogFromDb.eduUser)
                 { 
                     if (updateBiz(ResetLogFromDb.username, ResetPassword.Password) && updateEdu(ResetLogFromDb.username, ResetPassword.Password))
@@ -68,7 +100,11 @@ namespace ResetV7
                         ResetLogFromDb.LogTypeId = 15;
                     }
                     else
+                    {
+                        PasswdResetError = true;
                         ResetLogFromDb.LogTypeId = 14;
+                    }
+                        
                 }
                 else if (ResetLogFromDb.bizUser && !(ResetLogFromDb.eduUser))
                 {
@@ -80,7 +116,11 @@ namespace ResetV7
                         ResetLogFromDb.LogTypeId = 15;
                     }
                     else
+                    {
+                        PasswdResetError = true;
                         ResetLogFromDb.LogTypeId = 14;
+                    }
+                        
                 }
                 else if(!(ResetLogFromDb.bizUser) && ResetLogFromDb.eduUser)
                 {
@@ -92,11 +132,26 @@ namespace ResetV7
                         ResetLogFromDb.LogTypeId = 15;
                     }
                     else
-                        ResetLogFromDb.LogTypeId = 14;
+                    {
+                        
+                            PasswdResetError = true;
+                            ResetLogFromDb.LogTypeId = 14;
+                        
+                    }
+                        
                 }
-                ResetLogFromDb.LogTypeId = 15;
-                await _db.SaveChangesAsync();
-                return RedirectToPage("/Reset/Done", new { id = ResetPassword.ResetID });
+                if(!PasswdResetError)
+                {
+                    ResetLogFromDb.LogTypeId = 15;
+                    await _db.SaveChangesAsync();
+                    return RedirectToPage("/Reset/Done", new { id = ResetPassword.ResetID });
+                }
+                else
+                {
+                    await _db.SaveChangesAsync();
+                    return RedirectToPage("/Reset/Error", new { id = ResetLogFromDb.ResetID });
+                }
+                
             }
             await _db.SaveChangesAsync();
             return RedirectToPage("/Reset/Reset", new { id = ResetPassword.ResetID }); ;
@@ -116,7 +171,7 @@ namespace ResetV7
                 }catch(Exception ex)
                 {
                     return false;
-                    //var test = ex;
+                    var test = ex;
                 }
                 
                 user.Save();
@@ -137,8 +192,18 @@ namespace ResetV7
                 UserPrincipal user2 = UserPrincipal.FindByIdentity(context2, IdentityType.SamAccountName, username);
                 user2.Enabled = true;
                 //user2.EmailAddress = password;
-                //try
-                user2.SetPassword(password);
+                try
+                {
+                    //user2.pa
+                    user2.SetPassword(password);
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                    var test = ex;
+                }
+
+
                 user2.Save();
             }
             catch (Exception)
@@ -155,7 +220,7 @@ namespace ResetV7
                 emailSend = true;
 
             var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("Password reset", "security@braude.ac.il"));
+            message.From.Add(new MailboxAddress("Password reset", "password.reset2@braude.ac.il"));
             message.To.Add(new MailboxAddress("Braude", email));
 
 
@@ -171,10 +236,22 @@ namespace ResetV7
             };
             using (var client = new SmtpClient())
             {
-                client.Connect("smtp.office365.com", 587, false);
-                client.Authenticate("security@braude.ac.il", "3wtI$g&T0235!19zl$@rA5F0!");
-                await client.SendAsync(message);
-                client.Disconnect(true);
+                try
+                {
+                    //192.168.0.6 25
+                    client.Connect("192.168.0.6", 25, false);
+
+                    //client.Connect("smtp.office365.com", 587, false);
+                    //client.Authenticate("password.reset@braude.ac.il", "3wtI$g&T0235!19zl$@rA5F0!");
+                    
+                    await client.SendAsync(message);
+                    client.Disconnect(true);
+                }
+                catch(Exception ex)
+                {
+                    var t = ex.Message;
+                }
+                
             }
         }
         //public async Task sendMailToAsync(String email)
