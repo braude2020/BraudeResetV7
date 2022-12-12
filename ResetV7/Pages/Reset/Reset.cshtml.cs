@@ -212,6 +212,12 @@ namespace ResetV7
             }
             return true;
         }
+        public async Task SendMailGraphAPI(String email, String subject, String emailMessage)
+        {
+
+        }
+
+
         public async Task sendMailTo(String email, String subject, String emailMessage)
         {
             if (emailSend == true)
