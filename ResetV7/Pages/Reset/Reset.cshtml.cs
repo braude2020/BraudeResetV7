@@ -32,12 +32,29 @@ namespace ResetV7
         }
         //public void OnGet()
         //{
+        //    int test = 44;
         //}
-        public void OnGet(Guid id)
+        public async Task<IActionResult> OnGet(Guid id)
         {
-            if (ResetPassword == null)
-                ResetPassword = new ResetPassword();
-            ResetPassword.ResetID = id;
+            if(id == Guid.Empty)
+            {
+                return RedirectToPage("/Reset/Error", "Error");
+            }
+            else
+            {
+                if (ResetPassword == null)
+                    ResetPassword = new ResetPassword();
+                ResetPassword.ResetID = id;
+
+                var ResetLogFromDb = await _db.ResetLog.FindAsync(ResetPassword.ResetID);
+                if(ResetLogFromDb.sessionTokenCheck == null || !ResetLogFromDb.sessionTokenCheck.Equals("OK"))
+                {
+                    return RedirectToPage("/Reset/Error", "Error");
+                }
+
+            }
+
+            return Page();
 
 
 

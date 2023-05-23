@@ -40,6 +40,7 @@ namespace ResetV7
             if (ResetLogFromDb.sessionToken == ResetLog.sessionTokenCheck)
             {
                 ResetLogFromDb.LogTypeId = 13;
+                ResetLogFromDb.sessionTokenCheck = "OK";
                 await _db.SaveChangesAsync();
                 return RedirectToPage("/Reset/Reset", new { id = ResetLog.ResetID });
 
