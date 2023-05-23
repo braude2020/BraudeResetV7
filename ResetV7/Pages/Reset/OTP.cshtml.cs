@@ -21,9 +21,16 @@ namespace ResetV7
         //public void OnGet()
         //{
         //}
-        public async Task OnGet(Guid id)
+        public async Task<IActionResult> OnGet(Guid id)
         {
+            if (id == Guid.Empty)
+            {
+                return RedirectToPage("/Reset/Error", "Error");
+            }
+
             ResetLog = await _db.ResetLog.FindAsync(id);
+
+            return Page();
         }
         public async Task<IActionResult> OnPost()
         {
@@ -42,7 +49,7 @@ namespace ResetV7
                 ResetLogFromDb.LogTypeId = 13;
                 ResetLogFromDb.sessionTokenCheck = "OK";
                 await _db.SaveChangesAsync();
-                return RedirectToPage("/Reset/Reset", new { id = ResetLog.ResetID });
+                return RedirectToPage("/Reset/Reset", new { id = ResetLog.ResetID, otp = ResetLog.sessionTokenCheck });
 
             }
             else

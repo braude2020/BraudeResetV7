@@ -34,7 +34,7 @@ namespace ResetV7
         //{
         //    int test = 44;
         //}
-        public async Task<IActionResult> OnGet(Guid id)
+        public async Task<IActionResult> OnGet(Guid id, string otp)
         {
             if(id == Guid.Empty)
             {
@@ -47,7 +47,12 @@ namespace ResetV7
                 ResetPassword.ResetID = id;
 
                 var ResetLogFromDb = await _db.ResetLog.FindAsync(ResetPassword.ResetID);
-                if(ResetLogFromDb.sessionTokenCheck == null || !ResetLogFromDb.sessionTokenCheck.Equals("OK"))
+                if(ResetLogFromDb.sessionToken == null || !ResetLogFromDb.sessionToken.Equals(otp)) 
+                {
+                    return RedirectToPage("/Reset/Error", "Error");
+                }
+
+                if (ResetLogFromDb.sessionTokenCheck == null || !ResetLogFromDb.sessionTokenCheck.Equals("OK"))
                 {
                     return RedirectToPage("/Reset/Error", "Error");
                 }
