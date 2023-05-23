@@ -10,7 +10,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using MimeKit;
 using MailKit.Net.Smtp;
-
+using Microsoft.CodeAnalysis;
+using Microsoft.Extensions.Options;
 
 namespace ResetV7
 {
@@ -20,6 +21,9 @@ namespace ResetV7
         public string Message { get; set; }
 
         private readonly ApplicationDbContext _db;
+
+        //private IOptions<ADServer> _adServer;
+
         private Boolean emailSend = false;
 
         [BindProperty]
@@ -29,6 +33,7 @@ namespace ResetV7
         public ResetModel(ApplicationDbContext db)
         {
             _db = db;
+           
         }
         //public void OnGet()
         //{
@@ -36,6 +41,7 @@ namespace ResetV7
         //}
         public async Task<IActionResult> OnGet(Guid id, string otp)
         {
+            //string IpServerBiz = _adServer.BizAddress;
             if(id == Guid.Empty)
             {
                 return RedirectToPage("/Reset/Error", "Error");

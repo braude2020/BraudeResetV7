@@ -26,6 +26,11 @@ namespace ResetV7
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.Configure<ADServer>(Configuration.GetSection("AdServer"));
+
+            
+
             services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 

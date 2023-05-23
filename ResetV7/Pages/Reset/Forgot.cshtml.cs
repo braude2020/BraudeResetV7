@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using ResetV7.Models;
 
 namespace ResetV7
@@ -19,15 +20,21 @@ namespace ResetV7
         public ResetLog ResetLog { get; set; }
         public String ErrMessage { get; set; }
 
-        public ForgotModel(ApplicationDbContext db)
+        private readonly IOptions<ADServer> _adServer;
+
+        public ForgotModel(ApplicationDbContext db, IOptions<ADServer> adServer)
         {
             _db = db;
+            _adServer = adServer;
         }
         //public void OnGet()
         //{
         //}
         public async Task<IActionResult> OnGet(Guid id)
         {
+
+            //string adServerTest = _adServer.BizGroup;
+
             var serverCheck = new DC();
             HttpClient client = new HttpClient();
             //var checkingResponse = await client.GetAsync("https://simplesms.co.il/");
