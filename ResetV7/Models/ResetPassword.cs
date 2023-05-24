@@ -22,5 +22,7 @@ namespace ResetV7.Models
         [Compare("Password", ErrorMessage = "שים לב! - הסיסמאות שהוכנסו אינן זהות")]
         public string ConfirmPassword { get; set; }
         public int countReset { get; set; }
+
+        //public 
     }
 }

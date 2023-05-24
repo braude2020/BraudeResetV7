@@ -21,19 +21,20 @@ namespace ResetV7
         public string Message { get; set; }
 
         private readonly ApplicationDbContext _db;
-
+        private readonly IOptions<ADServer> _adServer;
         //private IOptions<ADServer> _adServer;
 
         private Boolean emailSend = false;
+        private string _otp = "";
 
         [BindProperty]
         //public ResetLog ResetLog { get; set; }
         public ResetPassword ResetPassword { get; set; }
 
-        public ResetModel(ApplicationDbContext db)
+        public ResetModel(ApplicationDbContext db, IOptions<ADServer> adServer)
         {
             _db = db;
-           
+            _adServer = adServer;
         }
         //public void OnGet()
         //{
@@ -42,7 +43,8 @@ namespace ResetV7
         public async Task<IActionResult> OnGet(Guid id, string otp)
         {
             //string IpServerBiz = _adServer.BizAddress;
-            if(id == Guid.Empty)
+            _otp = otp;
+            if (id == Guid.Empty)
             {
                 return RedirectToPage("/Reset/Error", "Error");
             }
@@ -85,6 +87,13 @@ namespace ResetV7
             string uName = ResetLogFromDb.username;
             string uPasswd = ResetPassword.Password;
 
+
+            if (!ResetLogFromDb.sessionToken.Equals(_otp) || !ResetLogFromDb.sessionTokenCheck.Equals("OK"))
+            {
+                return RedirectToPage("/Reset/Error", "Error");
+            }
+
+
             if (uPasswd.ToUpper().Contains(uName.ToUpper()))
             {
                 
@@ -121,7 +130,7 @@ namespace ResetV7
 
                 if (ResetLogFromDb.bizUser && ResetLogFromDb.eduUser)
                 { 
-                    if (updateBiz(ResetLogFromDb.username, ResetPassword.Password) && updateEdu(ResetLogFromDb.username, ResetPassword.Password))
+                    if (AdService.updateBiz(ResetLogFromDb.username, ResetPassword.Password, _adServer) && AdService.updateEdu(ResetLogFromDb.username, ResetPassword.Password, _adServer))
                     {
                         String messageText = "איפוס סיסמה בוצע בחשבונותך:" + "\r\n" + ResetLogFromDb.username + "@braude.ac.il \r\n" + ResetLogFromDb.username + "@e.braude.ac.il \r\n" + "אם השינוי לא בוצע על ידיך אנא פנה באופן מיידי לאבטחת מידע " + "\r\n" + "security@braude.ac.il";
                         await sendMailTo(ResetLogFromDb.username + "@braude.ac.il", "איפוס סיסמה בוצע בחשבונך", messageText);
@@ -136,7 +145,7 @@ namespace ResetV7
                 }
                 else if (ResetLogFromDb.bizUser && !(ResetLogFromDb.eduUser))
                 {
-                    if (updateBiz(ResetLogFromDb.username, ResetPassword.Password))
+                    if (AdService.updateBiz(ResetLogFromDb.username, ResetPassword.Password, _adServer))
                     {
                         String messageText = "איפוס סיסמה בוצע בחשבונותך:" + "<br>" + ResetLogFromDb.username + "@braude.ac.il <br>" +  "אם השינוי לא בוצע על ידיך אנא פנה באופן מיידי לאבטחת מידע " + "<br>" + "security@braude.ac.il";
 
@@ -152,7 +161,7 @@ namespace ResetV7
                 }
                 else if(!(ResetLogFromDb.bizUser) && ResetLogFromDb.eduUser)
                 {
-                    if (updateEdu(ResetLogFromDb.username, ResetPassword.Password))
+                    if (AdService.updateEdu(ResetLogFromDb.username, ResetPassword.Password, _adServer))
                     {
                         String messageText = "איפוס סיסמה בוצע בחשבונותך:" + "<br>"  + ResetLogFromDb.username + "@e.braude.ac.il <br>" + "אם השינוי לא בוצע על ידיך אנא פנה באופן מיידי לאבטחת מידע " + "<br>" + "security@braude.ac.il";
 
@@ -184,62 +193,7 @@ namespace ResetV7
             await _db.SaveChangesAsync();
             return RedirectToPage("/Reset/Reset", new { id = ResetPassword.ResetID }); ;
         }
-        public Boolean updateBiz(string username, string password)
-        {
-            try
-            {
-                //PrincipalContext context = new PrincipalContext(ContextType.Domain, "192.168.0.2", "OU=Administration,OU=BRDUsers,DC=BRD,DC=AC", "ADSyncService", "9eV8H@G4z1XH");
-                PrincipalContext context = new PrincipalContext(ContextType.Domain, "10.168.0.2", "OU=BRDUsers,DC=BRD,DC=AC", "ADSyncService", "9eV8H@G4z1XH");
-                UserPrincipal user = UserPrincipal.FindByIdentity(context, IdentityType.SamAccountName, username);
-                user.Enabled = true;
-                //user.EmailAddress = password;
-                try
-                {
-                    user.SetPassword(password);
-                }catch(Exception ex)
-                {
-                    return false;
-                    var test = ex;
-                }
-                
-                user.Save();
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-            return true;
-        }
-        public Boolean updateEdu(string username, string password)
-        {
-            try
-            {
-                //OU=edu,OU=BrdUsers,DC=brdeng,DC=ac
-                //PrincipalContext context2 = new PrincipalContext(ContextType.Domain, "192.168.130.10", "OU=BrdUsers,DC=brdeng,DC=ac", "ADSyncService", "9eV8H@G4z1XH");
-                PrincipalContext context2 = new PrincipalContext(ContextType.Domain, "10.168.130.10", "OU=edu,OU=BrdUsers,DC=brdeng,DC=ac", "ADSyncService", "9eV8H@G4z1XH");
-                UserPrincipal user2 = UserPrincipal.FindByIdentity(context2, IdentityType.SamAccountName, username);
-                user2.Enabled = true;
-                //user2.EmailAddress = password;
-                try
-                {
-                    //user2.pa
-                    user2.SetPassword(password);
-                }
-                catch (Exception ex)
-                {
-                    return false;
-                    var test = ex;
-                }
-
-
-                user2.Save();
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-            return true;
-        }
+        
         public async Task SendMailGraphAPI(String email, String subject, String emailMessage)
         {
 

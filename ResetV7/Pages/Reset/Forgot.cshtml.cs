@@ -155,8 +155,11 @@ namespace ResetV7
             //    int userCheck = 4;
 
             
+            
 
-            int userCheck = ResetLog.checkUser(ResetLog.username, ResetLog.mobile);
+            //int userCheck = ResetLog.checkUser(ResetLog.username, ResetLog.mobile);
+
+            int userCheck = AdService.checkUser(ResetLog.username, ResetLog.mobile, _adServer);
                 userCheck = userCheck + 5;
 
             if (userCheck == 7 || userCheck == 9)

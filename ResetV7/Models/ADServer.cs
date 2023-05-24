@@ -6,6 +6,7 @@
       public string BizAddress { get; set; }
       public string BizOu { get; set; }
       public string BizGroup { get; set; }
+      public string BizGroupOU { get; set; }
       public string BizUser { get; set; }
       public string BizPasswd { get; set; }
     //edu
