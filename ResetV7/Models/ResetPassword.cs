@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace ResetV7.Models
 {
@@ -23,6 +24,6 @@ namespace ResetV7.Models
         public string ConfirmPassword { get; set; }
         public int countReset { get; set; }
 
-        //public 
+        public string ConfirmOtp { get; set; }
     }
 }

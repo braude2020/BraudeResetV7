@@ -40,7 +40,8 @@ namespace ResetV7.Models
         public Boolean bizUser { get; set; }
         public Boolean eduUser { get; set; }
         public String Ip { get; set; }
-        
+        public string SessionID { get; set; }
+
         public string sessionToken { get; set; }
         //[RegularExpression(@"(?<!\d)\d{6}(?!\d)", ErrorMessage = "קוד אימות אינו תקין")]
         [RegularExpression(@"^\d{6}$", ErrorMessage = "קוד אימות אינו תקין")]

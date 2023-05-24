@@ -25,7 +25,9 @@ namespace ResetV7
         //private IOptions<ADServer> _adServer;
 
         private Boolean emailSend = false;
-        private string _otp = "";
+        
+        //[BindProperty]
+        //public string _otp = "";
 
         [BindProperty]
         //public ResetLog ResetLog { get; set; }
@@ -43,7 +45,7 @@ namespace ResetV7
         public async Task<IActionResult> OnGet(Guid id, string otp)
         {
             //string IpServerBiz = _adServer.BizAddress;
-            _otp = otp;
+            //_otp = otp;
             if (id == Guid.Empty)
             {
                 return RedirectToPage("/Reset/Error", "Error");
@@ -53,6 +55,7 @@ namespace ResetV7
                 if (ResetPassword == null)
                     ResetPassword = new ResetPassword();
                 ResetPassword.ResetID = id;
+                ResetPassword.ConfirmOtp = otp;
 
                 var ResetLogFromDb = await _db.ResetLog.FindAsync(ResetPassword.ResetID);
                 if(ResetLogFromDb.sessionToken == null || !ResetLogFromDb.sessionToken.Equals(otp)) 
@@ -88,7 +91,7 @@ namespace ResetV7
             string uPasswd = ResetPassword.Password;
 
 
-            if (!ResetLogFromDb.sessionToken.Equals(_otp) || !ResetLogFromDb.sessionTokenCheck.Equals("OK"))
+            if (!ResetLogFromDb.sessionToken.Equals(ResetPassword.ConfirmOtp) || !ResetLogFromDb.sessionTokenCheck.Equals("OK"))
             {
                 return RedirectToPage("/Reset/Error", "Error");
             }

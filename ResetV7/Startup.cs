@@ -29,8 +29,9 @@ namespace ResetV7
 
             services.Configure<ADServer>(Configuration.GetSection("AdServer"));
 
-            
-
+            //Session
+            services.AddSession();
+            //
             services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
@@ -50,7 +51,9 @@ namespace ResetV7
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            //Session
+            app.UseSession();
+            //
             app.UseRouting();
 
             app.UseAuthorization();

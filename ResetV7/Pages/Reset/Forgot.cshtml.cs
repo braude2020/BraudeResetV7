@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Http;
 using ResetV7.Models;
 
 namespace ResetV7
@@ -131,6 +132,7 @@ namespace ResetV7
                 ResetLogFromDb.countForgot = ResetLogFromDb.countForgot + 1;
                 ResetLogFromDb.username = ResetLog.username;
                 ResetLogFromDb.mobile = ResetLog.mobile;
+                string sessionId = HttpContext.Session.Id;
 
             }
 
